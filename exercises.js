@@ -26,6 +26,9 @@ console.log(gpa);`,
             "Variables are case-sensitive",
             "Strings need quotes, numbers don't",
             "You can log multiple types of variables"
+        ],
+        testCases: [
+            { description: "Should log three values (a name, age, and GPA)", checker: (output) => output.split('\n').filter(line => line.trim()).length >= 3 }
         ]
     },
     2: {
@@ -50,6 +53,9 @@ if (number % 2 === 0) {
             "If remainder is 0, number is even",
             "Remember the if/else syntax",
             "Test with different numbers"
+        ],
+        testCases: [
+            { description: "Should log whether 15 is even or odd (should be 'odd')", checker: (output) => output.includes("odd") }
         ]
     },
     3: {
@@ -78,6 +84,9 @@ console.log(result); // 8`,
             "Use 'return' to send back a value",
             "The result will be 8",
             "You can call the function multiple times with different values"
+        ],
+        testCases: [
+            { description: "Should output 8 (5 + 3)", checker: (output) => output.includes("8") }
         ]
     },
     4: {
@@ -97,6 +106,12 @@ for (let i = 1; i <= 10; i++) {
             "Start from 1",
             "Use <= to include 10",
             "Each iteration will print a number"
+        ],
+        testCases: [
+            { description: "Should output numbers 1 through 10", checker: (output) => {
+                const lines = output.split('\n').filter(line => line.trim());
+                return lines.length >= 10 && lines[0].includes('1') && lines[lines.length-1].includes('10');
+            }}
         ]
     },
     5: {
@@ -134,6 +149,11 @@ fruits.forEach(function(fruit) {
             "unshift() adds to the beginning",
             "length property shows how many items",
             "forEach loops through each element"
+        ],
+        testCases: [
+            { description: "Should output array with 5 items (grape, apple, banana, cherry, orange)", checker: (output) => {
+                return output.includes("grape") && output.includes("orange") && output.includes("5");
+            }}
         ]
     },
     6: {
@@ -167,6 +187,9 @@ button.addEventListener("click", function() {
             "Increment count by 1 each time",
             "Use textContent to update the display",
             "The display should update immediately when clicked"
+        ],
+        testCases: [
+            { description: "Should run without errors (DOM exercise)", checker: (output) => !output.includes("Error") && !output.includes("undefined") }
         ]
     }
 };
@@ -199,7 +222,7 @@ function openExercise(exerciseNumber) {
             <h3>📋 Starter Code:</h3>
             <pre><code>${escapeHtml(exercise.starter)}</code></pre>
             
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin: 2rem 0;">
                 <div>
                     <button class="btn btn-primary" onclick="showSolution(${exerciseNumber})">
                         💡 Show Solution
@@ -210,6 +233,27 @@ function openExercise(exerciseNumber) {
                         🔍 Show Hints
                     </button>
                 </div>
+                <div>
+                    <button class="btn btn-success" onclick="toggleCodeEditor(${exerciseNumber})">
+                        ▶️ Test Code
+                    </button>
+                </div>
+            </div>
+            
+            <div id="code-editor-${exerciseNumber}" class="code-editor-section hidden" style="display: none; margin: 2rem 0;">
+                <h3>💻 Try It Live:</h3>
+                <p style="color: #999; font-size: 0.9rem;">Paste your solution below and click "Run Code" to test it</p>
+                <textarea id="code-input-${exerciseNumber}" class="code-editor" placeholder="Paste your code here...">${exercise.starter}</textarea>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
+                    <button class="btn btn-success" onclick="testExerciseCode(${exerciseNumber})">
+                        ▶️ Run Code
+                    </button>
+                    <button class="btn btn-secondary" onclick="toggleCodeEditor(${exerciseNumber})">
+                        ✕ Close
+                    </button>
+                </div>
+                <div id="test-output-${exerciseNumber}" class="test-output" style="display: none; margin: 1rem 0;"></div>
+                <div id="test-results-${exerciseNumber}" class="test-results" style="display: none; margin: 1rem 0;"></div>
             </div>
             
             <div id="solution-${exerciseNumber}" class="solution-box hidden" style="display: none;">
@@ -232,8 +276,8 @@ function openExercise(exerciseNumber) {
                 <li>Understand the starter code</li>
                 <li>Read the hints if needed</li>
                 <li>Try to complete it yourself</li>
+                <li>Use "Test Code" to check your solution</li>
                 <li>Check the solution when ready</li>
-                <li>Copy to Sandbox and test</li>
                 <li>Click "I Completed This!" to earn points</li>
             </ol>
         `;
@@ -302,6 +346,102 @@ function completeExercise(exerciseNumber) {
         }
     }
 }
+
+function toggleCodeEditor(exerciseNumber) {
+    const editor = document.getElementById(`code-editor-${exerciseNumber}`);
+    if (editor) {
+        editor.style.display = editor.style.display === 'none' ? 'block' : 'none';
+    }
+}
+
+function testExerciseCode(exerciseNumber) {
+    const codeInput = document.getElementById(`code-input-${exerciseNumber}`);
+    const outputDiv = document.getElementById(`test-output-${exerciseNumber}`);
+    const resultsDiv = document.getElementById(`test-results-${exerciseNumber}`);
+    
+    if (!codeInput) return;
+    
+    const userCode = codeInput.value;
+    const exercise = exercisesContent[exerciseNumber];
+    
+    // Capture console output
+    let consoleOutput = '';
+    const originalLog = console.log;
+    console.log = function(...args) {
+        consoleOutput += args.map(arg => {
+            if (typeof arg === 'object') {
+                return JSON.stringify(arg);
+            }
+            return String(arg);
+        }).join(' ') + '\n';
+        originalLog.apply(console, args);
+    };
+    
+    try {
+        // Run the user's code
+        eval(userCode);
+        
+        // Check test cases
+        const testResults = [];
+        let allPassed = true;
+        
+        if (exercise.testCases && exercise.testCases.length > 0) {
+            exercise.testCases.forEach((testCase, index) => {
+                const passed = testCase.checker(consoleOutput);
+                testResults.push({
+                    description: testCase.description,
+                    passed: passed
+                });
+                if (!passed) allPassed = false;
+            });
+        }
+        
+        // Display output
+        outputDiv.style.display = 'block';
+        outputDiv.innerHTML = `<h4>📤 Output:</h4><pre style="background: #1e1e1e; color: #dcdcdc; padding: 1rem; border-radius: 4px; overflow-x: auto;">${escapeHtml(consoleOutput || '(no output)')}</pre>`;
+        
+        // Display test results
+        resultsDiv.style.display = 'block';
+        let resultsHTML = '<h4>🧪 Test Results:</h4>';
+        
+        if (testResults.length > 0) {
+            testResults.forEach(result => {
+                const icon = result.passed ? '✅' : '❌';
+                resultsHTML += `<div style="margin: 0.5rem 0; padding: 0.75rem; background: ${result.passed ? '#1e3a1f' : '#3a1f1f'}; border-left: 4px solid ${result.passed ? '#4ade80' : '#ef4444'}; border-radius: 4px;">
+                    ${icon} ${result.description}
+                </div>`;
+            });
+            
+            if (allPassed) {
+                resultsHTML += `<div style="margin-top: 1rem; padding: 1rem; background: #1e3a1f; border: 2px solid #4ade80; border-radius: 4px; text-align: center; color: #4ade80; font-weight: bold;">
+                    🎉 All tests passed! Your solution looks correct!
+                </div>`;
+            } else {
+                resultsHTML += `<div style="margin-top: 1rem; padding: 1rem; background: #3a1f1f; border: 2px solid #ef4444; border-radius: 4px; text-align: center; color: #ef4444; font-weight: bold;">
+                    ⚠️ Some tests didn't pass. Try again or check the hints!
+                </div>`;
+            }
+        } else {
+            resultsHTML += '<p>Code ran successfully without errors!</p>';
+        }
+        
+        resultsDiv.innerHTML = resultsHTML;
+        
+    } catch (error) {
+        // Handle errors
+        outputDiv.style.display = 'block';
+        outputDiv.innerHTML = `<h4>❌ Error:</h4><pre style="background: #3a1f1f; color: #ef4444; padding: 1rem; border-radius: 4px; overflow-x: auto;">${escapeHtml(error.message)}</pre>`;
+        
+        resultsDiv.style.display = 'block';
+        resultsDiv.innerHTML = `<div style="padding: 1rem; background: #3a1f1f; border: 2px solid #ef4444; border-radius: 4px; color: #ef4444;">
+            <strong>⚠️ Error in your code:</strong> ${escapeHtml(error.message)}
+        </div>`;
+    } finally {
+        // Restore original console.log
+        console.log = originalLog;
+    }
+}
+
 
 function escapeHtml(text) {
     const map = {

@@ -1620,3 +1620,83 @@ body {
     color: #667eea;
     margin-bottom: 1rem;
 }
+/* Code Editor Styles */
+.code-editor-section {
+    background: #2d2d2d;
+    border: 2px solid #667eea;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+}
+
+.code-editor-section h3 {
+    color: #667eea;
+    margin-bottom: 0.5rem;
+}
+
+.code-editor-section > p {
+    margin-bottom: 1rem !important;
+}
+
+.code-editor {
+    width: 100%;
+    min-height: 250px;
+    padding: 1rem;
+    background: #1e1e1e;
+    color: #dcdcdc;
+    border: 2px solid #3a3a3a;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    resize: vertical;
+    margin-bottom: 1rem;
+}
+
+.code-editor:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+}
+
+.test-output {
+    background: #2d2d2d;
+    border: 1px solid #444;
+    border-radius: 4px;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.test-output h4 {
+    color: #dcdcdc;
+    margin-bottom: 0.5rem;
+}
+
+.test-output pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.test-results {
+    border-radius: 4px;
+    padding: 1rem;
+}
+
+.test-results h4 {
+    color: #dcdcdc;
+    margin-bottom: 1rem;
+}
+
+/* Responsive code editor */
+@media (max-width: 768px) {
+    .code-editor {
+        font-size: 0.9rem;
+        min-height: 200px;
+    }
+    
+    .code-editor-section {
+        padding: 1rem;
+        margin: 1.5rem 0;
+    }
+}
