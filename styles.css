@@ -217,11 +217,13 @@ body {
 
 /* Hero Section */
 .hero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 3rem;
     padding: 4rem 0;
+    text-align: center;
 }
 
 .hero-content {
@@ -229,6 +231,12 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    max-width: 600px;
+}
+
+.hero-image {
+    max-width: 500px;
+    width: 100%;
 }
 
 .hero-content h1 {
@@ -421,6 +429,7 @@ body {
 
 /* Lesson Detail */
 .lesson-detail {
+    display: block;
     background: white;
     border: 1px solid var(--border-color);
     border-radius: 10px;
@@ -670,6 +679,7 @@ body {
 
 /* Exercise Detail */
 .exercise-detail {
+    display: block;
     background: white;
     border: 1px solid var(--border-color);
     border-radius: 10px;
@@ -965,7 +975,6 @@ body {
 
     /* Hero Section */
     .hero {
-        grid-template-columns: 1fr;
         gap: 2rem;
         padding: 2rem 0;
     }

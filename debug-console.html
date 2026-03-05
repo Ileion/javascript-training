@@ -1,0 +1,101 @@
+<!-- Add this before closing </head> tag in index.html -->
+<style>
+    #debug-console {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 400px;
+        height: 200px;
+        background: #222;
+        color: #0f0;
+        border: 2px solid #0f0;
+        border-radius: 8px 8px 0 0;
+        font-family: monospace;
+        font-size: 12px;
+        padding: 10px;
+        overflow-y: auto;
+        z-index: 10000;
+        max-height: 300px;
+    }
+    
+    #debug-console.hidden {
+        display: none;
+    }
+    
+    #debug-toggle {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        padding: 10px 15px;
+        background: #0f0;
+        color: #000;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        z-index: 9999;
+    }
+</style>
+
+<script>
+// Override console to capture logs
+const logs = [];
+const maxLogs = 50;
+
+const originalLog = console.log;
+const originalError = console.error;
+const originalWarn = console.warn;
+
+function addLog(msg, type = 'log') {
+    logs.push({ msg, type, time: new Date().toLocaleTimeString() });
+    if (logs.length > maxLogs) logs.shift();
+    updateDebugConsole();
+}
+
+console.log = function(...args) {
+    originalLog.apply(console, args);
+    addLog(args.join(' '), 'log');
+};
+
+console.error = function(...args) {
+    originalError.apply(console, args);
+    addLog('ERROR: ' + args.join(' '), 'error');
+};
+
+console.warn = function(...args) {
+    originalWarn.apply(console, args);
+    addLog('WARN: ' + args.join(' '), 'warn');
+};
+
+function updateDebugConsole() {
+    const debugConsole = document.getElementById('debug-console');
+    if (!debugConsole) return;
+    
+    debugConsole.innerHTML = logs.map((log, idx) => 
+        `<div style="color: ${log.type === 'error' ? '#f00' : log.type === 'warn' ? '#ff0' : '#0f0'}">[${log.time}] ${log.msg}</div>`
+    ).join('');
+    debugConsole.scrollTop = debugConsole.scrollHeight;
+}
+
+function toggleDebugConsole() {
+    const debugConsole = document.getElementById('debug-console');
+    debugConsole.classList.toggle('hidden');
+}
+
+// Add HTML for debug console on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    if (!document.getElementById('debug-console')) {
+        const consoleDiv = document.createElement('div');
+        consoleDiv.id = 'debug-console';
+        document.body.appendChild(consoleDiv);
+        
+        const toggleBtn = document.createElement('button');
+        toggleBtn.id = 'debug-toggle';
+        toggleBtn.textContent = 'Debug';
+        toggleBtn.onclick = toggleDebugConsole;
+        document.body.appendChild(toggleBtn);
+        
+        updateDebugConsole();
+    }
+});
+</script>

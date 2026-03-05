@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .hidden { display: none; }
+        .lesson-detail { background: #f0f0f0; padding: 20px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <h1>Debug Test</h1>
+    <button onclick="testClick()">Test Click</button>
+    <button onclick="testLessonClick()">Test Lesson Click</button>
+    
+    <div id="lesson-detail" class="lesson-detail hidden">
+        <h2>Lesson Detail</h2>
+        <p id="lesson-content">Content will go here</p>
+    </div>
+
+    <script>
+        function testClick() {
+            alert('Button clicked');
+            const el = document.getElementById('lesson-detail');
+            console.log('Element found:', el);
+            console.log('Has hidden class:', el.classList.contains('hidden'));
+        }
+        
+        function testLessonClick() {
+            const el = document.getElementById('lesson-detail');
+            const content = document.getElementById('lesson-content');
+            content.innerHTML = 'Test content: ' + new Date().getTime();
+            el.classList.remove('hidden');
+            console.log('Removed hidden class');
+            console.log('Has hidden class now:', el.classList.contains('hidden'));
+            el.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        console.log('Page loaded');
+    </script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Click Test</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .section { display: none; padding: 20px; border: 1px solid #ccc; margin: 20px 0; }
+        .section.active { display: block; background: #f0f0f0; }
+        .lesson-card { padding: 10px; border: 1px solid #ddd; margin: 10px 0; cursor: pointer; }
+        .lesson-card:hover { background: #eee; }
+        .lesson-detail { background: #fff0f0; padding: 20px; margin-top: 20px; display: none; }
+        .lesson-detail.visible { display: block; }
+        #debug { 
+            position: fixed; 
+            top: 10px; 
+            right: 10px; 
+            background: #222; 
+            color: #0f0; 
+            padding: 10px; 
+            font-family: monospace; 
+            width: 300px; 
+            height: 200px; 
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="debug"></div>
+    
+    <button onclick="showLessons()">Go to Lessons</button>
+    
+    <section class="section" id="home-section">
+        <h1>Home</h1>
+        <p>Click "Go to Lessons" to see the lessons section</p>
+    </section>
+    
+    <section class="section active" id="lessons-section">
+        <h1>Lessons</h1>
+        <div class="lesson-card" onclick="openLesson(1)">
+            <h3>Lesson 1</h3>
+            <p>Click to open</p>
+        </div>
+        
+        <div id="lesson-detail" class="lesson-detail">
+            <h2>Lesson Detail Content</h2>
+            <p id="lesson-content">This is where the lesson content will appear</p>
+            <button onclick="closeLesson()">Close</button>
+        </div>
+    </section>
+
+    <script>
+        function log(msg) {
+            console.log(msg);
+            const debug = document.getElementById('debug');
+            debug.innerHTML += msg + '<br>';
+            debug.scrollTop = debug.scrollHeight;
+        }
+
+        function showLessons() {
+            log('showLessons called');
+            document.getElementById('home-section').classList.remove('active');
+            document.getElementById('lessons-section').classList.add('active');
+        }
+
+        function openLesson(num) {
+            log('openLesson(' + num + ') called');
+            const detail = document.getElementById('lesson-detail');
+            const content = document.getElementById('lesson-content');
+            
+            log('Found lesson-detail: ' + (detail ? 'YES' : 'NO'));
+            log('Found lesson-content: ' + (content ? 'YES' : 'NO'));
+            
+            if (detail && content) {
+                content.innerHTML = 'Lesson ' + num + ' content';
+                detail.classList.add('visible');
+                log('Added visible class');
+                detail.scrollIntoView();
+                log('Called scrollIntoView');
+            }
+        }
+
+        function closeLesson() {
+            log('closeLesson called');
+            document.getElementById('lesson-detail').classList.remove('visible');
+        }
+
+        log('Page loaded');
+    </script>
+</body>
+</html>
