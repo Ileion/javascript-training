@@ -279,10 +279,12 @@ function completeExercise(exerciseNumber) {
     updateProgress();
     
     // Update the button
-    const btn = event.target;
-    btn.textContent = '✓ Completed!';
-    btn.disabled = true;
-    btn.style.opacity = '0.5';
+    const btn = event ? event.target : document.querySelector(`button[onclick*="completeExercise(${exerciseNumber})"]`);
+    if (btn) {
+        btn.textContent = '✓ Completed!';
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+    }
     
     // Show celebration
     celebrateAchievement();

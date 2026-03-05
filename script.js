@@ -5,9 +5,9 @@ class GameState {
         const data = saved ? JSON.parse(saved) : {};
         
         this.points = data.points || 0;
-        this.completedLessons = data.completedLessons || new Set();
-        this.completedExercises = data.completedExercises || new Set();
-        this.achievements = data.achievements || new Set();
+        this.completedLessons = new Set(data.completedLessons || []);
+        this.completedExercises = new Set(data.completedExercises || []);
+        this.achievements = new Set(data.achievements || []);
         this.codeRunCount = data.codeRunCount || 0;
         this.totalTime = data.totalTime || 0;
     }
