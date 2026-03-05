@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Basics - Interactive Learning</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">⚛️</span>
+                <span class="logo-text">JavaScript Basics</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" onclick="navigateTo('home')">Home</a></li>
+                <li><a href="#lessons" onclick="navigateTo('lessons')">Lessons</a></li>
+                <li><a href="#exercises" onclick="navigateTo('exercises')">Exercises</a></li>
+                <li><a href="#sandbox" onclick="navigateTo('sandbox')">Sandbox</a></li>
+            </ul>
+            <div class="nav-stats">
+                <div class="stat-item">
+                    <span class="stat-icon">⭐</span>
+                    <span class="stat-value"><span id="points">0</span></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">🏆</span>
+                    <span class="stat-value"><span id="achievements">0</span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="container">
+            <div class="progress-bar-wrapper">
+                <span class="progress-label">Course Progress</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <span class="progress-percent" id="progress-percent">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <!-- HOME SECTION -->
+        <section id="home-section" class="section active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Learn JavaScript Basics</h1>
+                    <p>Master the fundamentals of JavaScript in 1.5 hours with interactive examples and hands-on exercises</p>
+                    <button class="btn btn-primary" onclick="navigateTo('lessons')">Start Learning</button>
+                </div>
+                <div class="hero-image">
+                    <div class="code-window">
+                        <div class="code-header">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <pre><code>console.log('JavaScript');</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <section class="features">
+                <div class="container">
+                    <h2>What You'll Learn</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">📝</div>
+                            <h3>Variables & Types</h3>
+                            <p>Understand var, let, const and JavaScript data types</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">⚙️</div>
+                            <h3>Functions</h3>
+                            <p>Write reusable code with functions and understand scope</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🎯</div>
+                            <h3>DOM Manipulation</h3>
+                            <p>Interact with HTML and create dynamic web pages</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🚀</div>
+                            <h3>Events & Objects</h3>
+                            <p>Handle user interactions and work with JavaScript objects</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Achievements Section -->
+            <section class="achievements-showcase">
+                <div class="container">
+                    <h2>🏆 Unlock Achievements</h2>
+                    <div class="achievements-grid">
+                        <div class="achievement" data-achievement="first-lesson" title="First Steps - Complete your first lesson">
+                            <div class="achievement-icon">🌟</div>
+                            <div class="achievement-info">
+                                <div class="achievement-name">First Steps</div>
+                                <div class="achievement-desc">Complete your first lesson</div>
+                            </div>
+                        </div>
+                        <div class="achievement" data-achievement="quick-learner" title="Quick Learner - Complete 3 lessons in one session">
+                            <div class="achievement-icon">⚡</div>
+                            <div class="achievement-info">
+                                <div class="achievement-name">Quick Learner</div>
+                                <div class="achievement-desc">Complete 3 lessons</div>
+                            </div>
+                        </div>
+                        <div class="achievement" data-achievement="exercise-master" title="Exercise Master - Complete all 6 exercises">
+                            <div class="achievement-icon">🎓</div>
+                            <div class="achievement-info">
+                                <div class="achievement-name">Exercise Master</div>
+                                <div class="achievement-desc">Complete all exercises</div>
+                            </div>
+                        </div>
+                        <div class="achievement" data-achievement="sandbox-explorer" title="Sandbox Explorer - Run 10 pieces of code in sandbox">
+                            <div class="achievement-icon">🔬</div>
+                            <div class="achievement-info">
+                                <div class="achievement-name">Sandbox Explorer</div>
+                                <div class="achievement-desc">Run 10 code examples</div>
+                            </div>
+                        </div>
+                        <div class="achievement" data-achievement="code-warrior" title="Code Warrior - Earn 500 points">
+                            <div class="achievement-icon">⚔️</div>
+                            <div class="achievement-info">
+                                <div class="achievement-name">Code Warrior</div>
+                                <div class="achievement-desc">Earn 500 points</div>
+                            </div>
+                        </div>
+                        <div class="achievement" data-achievement="master-coder" title="Master Coder - Complete entire course">
+                            <div class="achievement-icon">👑</div>
+                            <div class="achievement-info">
+                                <div class="achievement-name">Master Coder</div>
+                                <div class="achievement-desc">Complete the course</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- LESSONS SECTION -->
+        <section id="lessons-section" class="section">
+            <div class="container">
+                <h1>JavaScript Lessons</h1>
+                <div class="lessons-container">
+                    <!-- Lesson 1 -->
+                    <div class="lesson-card" onclick="openLesson(1)">
+                        <div class="lesson-number">1</div>
+                        <h3>Introduction to JavaScript</h3>
+                        <p>What is JavaScript and why learn it?</p>
+                        <span class="duration">⏱️ 5 mins</span>
+                    </div>
+
+                    <!-- Lesson 2 -->
+                    <div class="lesson-card" onclick="openLesson(2)">
+                        <div class="lesson-number">2</div>
+                        <h3>Variables & Data Types</h3>
+                        <p>Learn about var, let, const and different data types</p>
+                        <span class="duration">⏱️ 15 mins</span>
+                    </div>
+
+                    <!-- Lesson 3 -->
+                    <div class="lesson-card" onclick="openLesson(3)">
+                        <div class="lesson-number">3</div>
+                        <h3>Operators & Control Flow</h3>
+                        <p>Arithmetic, logical operators and if/else statements</p>
+                        <span class="duration">⏱️ 15 mins</span>
+                    </div>
+
+                    <!-- Lesson 4 -->
+                    <div class="lesson-card" onclick="openLesson(4)">
+                        <div class="lesson-number">4</div>
+                        <h3>Functions</h3>
+                        <p>Write and understand functions, return values, and scope</p>
+                        <span class="duration">⏱️ 15 mins</span>
+                    </div>
+
+                    <!-- Lesson 5 -->
+                    <div class="lesson-card" onclick="openLesson(5)">
+                        <div class="lesson-number">5</div>
+                        <h3>Arrays & Objects</h3>
+                        <p>Work with collections of data and complex objects</p>
+                        <span class="duration">⏱️ 15 mins</span>
+                    </div>
+
+                    <!-- Lesson 6 -->
+                    <div class="lesson-card" onclick="openLesson(6)">
+                        <div class="lesson-number">6</div>
+                        <h3>DOM & Events</h3>
+                        <p>Manipulate HTML and handle user interactions</p>
+                        <span class="duration">⏱️ 15 mins</span>
+                    </div>
+                </div>
+
+                <!-- Lesson Detail View -->
+                <div id="lesson-detail" class="lesson-detail hidden">
+                    <button class="btn-close" onclick="closeLessonDetail()">← Back</button>
+                    <div id="lesson-content"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXERCISES SECTION -->
+        <section id="exercises-section" class="section">
+            <div class="container">
+                <h1>Interactive Exercises</h1>
+                <div class="exercises-container">
+                    <!-- Exercise 1 -->
+                    <div class="exercise-card">
+                        <h3>Exercise 1: Variables</h3>
+                        <p>Create and log variables</p>
+                        <button class="btn btn-secondary" onclick="openExercise(1)">Try It</button>
+                    </div>
+
+                    <!-- Exercise 2 -->
+                    <div class="exercise-card">
+                        <h3>Exercise 2: Conditionals</h3>
+                        <p>Use if/else statements</p>
+                        <button class="btn btn-secondary" onclick="openExercise(2)">Try It</button>
+                    </div>
+
+                    <!-- Exercise 3 -->
+                    <div class="exercise-card">
+                        <h3>Exercise 3: Functions</h3>
+                        <p>Write a simple function</p>
+                        <button class="btn btn-secondary" onclick="openExercise(3)">Try It</button>
+                    </div>
+
+                    <!-- Exercise 4 -->
+                    <div class="exercise-card">
+                        <h3>Exercise 4: Loops</h3>
+                        <p>Create a loop to print numbers</p>
+                        <button class="btn btn-secondary" onclick="openExercise(4)">Try It</button>
+                    </div>
+
+                    <!-- Exercise 5 -->
+                    <div class="exercise-card">
+                        <h3>Exercise 5: Arrays</h3>
+                        <p>Work with array methods</p>
+                        <button class="btn btn-secondary" onclick="openExercise(5)">Try It</button>
+                    </div>
+
+                    <!-- Exercise 6 -->
+                    <div class="exercise-card">
+                        <h3>Exercise 6: DOM Manipulation</h3>
+                        <p>Change HTML content dynamically</p>
+                        <button class="btn btn-secondary" onclick="openExercise(6)">Try It</button>
+                    </div>
+                </div>
+
+                <!-- Exercise Detail View -->
+                <div id="exercise-detail" class="exercise-detail hidden">
+                    <button class="btn-close" onclick="closeExerciseDetail()">← Back</button>
+                    <div id="exercise-content"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SANDBOX SECTION -->
+        <section id="sandbox-section" class="section">
+            <div class="container">
+                <h1>JavaScript Sandbox</h1>
+                <p class="subtitle">Write and execute JavaScript code in real-time</p>
+                
+                <div class="sandbox-container">
+                    <div class="editor-panel">
+                        <h3>✏️ Code Editor</h3>
+                        <textarea id="code-input" placeholder="Write your JavaScript here...
+                        
+// Example:
+let name = 'John';
+console.log('Hello ' + name);">let message = 'Hello, JavaScript!';
+console.log(message);</textarea>
+                        <div class="editor-actions">
+                            <button class="btn btn-primary" onclick="runCode()">▶ Run Code (Ctrl+Enter)</button>
+                            <button class="btn btn-secondary" onclick="resetSandbox()">🔄 Reset</button>
+                        </div>
+                    </div>
+                    <div class="output-panel">
+                        <h3>📊 Console Output</h3>
+                        <div id="console-output" class="console"></div>
+                        <div class="console-actions">
+                            <button class="btn btn-secondary" style="margin-top: 10px;" onclick="clearConsole()">Clear</button>
+                            <span class="execution-info" id="execution-info"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sandbox-tips">
+                    <h4>💡 Tips:</h4>
+                    <ul>
+                        <li>Use <code>console.log()</code> to print output</li>
+                        <li>Press Ctrl+Enter to run code quickly</li>
+                        <li>Check the browser console (F12) for detailed errors</li>
+                        <li>Combine code from lessons to test your understanding</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 JavaScript Training Course. Created for students by Thomas More.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="lessons.js"></script>
+    <script src="exercises.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
