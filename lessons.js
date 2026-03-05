@@ -600,7 +600,7 @@ button.addEventListener("click", () => {
 element.addEventListener("click", handleClick);      // Mouse click
 element.addEventListener("mouseenter", handleHover); // Mouse enters
 element.addEventListener("mouseleave", handleLeave); // Mouse leaves
-element.addEventListener("double", handleDouble);    // Double click
+element.addEventListener("dblclick", handleDouble);  // Double click
 
 // Form events
 input.addEventListener("input", handleInput);        // Text input changes

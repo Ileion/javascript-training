@@ -105,6 +105,38 @@ class GameState {
 
 let gameState = new GameState();
 
+// ==================== MOBILE MENU FUNCTIONALITY ====================
+function toggleMobileMenu() {
+    const navMenu = document.getElementById('nav-menu');
+    const hamburger = document.getElementById('hamburger');
+    
+    if (navMenu && hamburger) {
+        navMenu.classList.toggle('active');
+        hamburger.classList.toggle('active');
+    }
+}
+
+function closeMobileMenu() {
+    const navMenu = document.getElementById('nav-menu');
+    const hamburger = document.getElementById('hamburger');
+    
+    if (navMenu && hamburger) {
+        navMenu.classList.remove('active');
+        hamburger.classList.remove('active');
+    }
+}
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    const navbar = document.querySelector('.navbar');
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('nav-menu');
+    
+    if (navbar && !navbar.contains(e.target)) {
+        closeMobileMenu();
+    }
+});
+
 // Navigation functionality
 function navigateTo(section) {
     // Hide all sections
