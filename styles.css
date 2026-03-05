@@ -1604,6 +1604,16 @@ body {
     transform: translateY(-3px);
 }
 
+.btn-info {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+}
+
+.btn-info:hover {
+    background: linear-gradient(135deg, #2980b9, #1f618d);
+    transform: translateY(-3px);
+}
+
 .solution-box, .hints-box {
     background: linear-gradient(135deg, #f0f8ff, #f0fff4);
     border-left: 4px solid #667eea;

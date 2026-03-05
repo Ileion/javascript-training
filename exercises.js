@@ -244,9 +244,12 @@ function openExercise(exerciseNumber) {
                 <h3>💻 Try It Live:</h3>
                 <p style="color: #999; font-size: 0.9rem;">Paste your solution below and click "Run Code" to test it</p>
                 <textarea id="code-input-${exerciseNumber}" class="code-editor" placeholder="Paste your code here...">${exercise.starter}</textarea>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin: 1rem 0;">
                     <button class="btn btn-success" onclick="testExerciseCode(${exerciseNumber})">
                         ▶️ Run Code
+                    </button>
+                    <button class="btn btn-info" onclick="resetExerciseCode(${exerciseNumber})">
+                        🔄 Reset
                     </button>
                     <button class="btn btn-secondary" onclick="toggleCodeEditor(${exerciseNumber})">
                         ✕ Close
@@ -439,6 +442,27 @@ function testExerciseCode(exerciseNumber) {
     } finally {
         // Restore original console.log
         console.log = originalLog;
+    }
+}
+
+function resetExerciseCode(exerciseNumber) {
+    const codeInput = document.getElementById(`code-input-${exerciseNumber}`);
+    const outputDiv = document.getElementById(`test-output-${exerciseNumber}`);
+    const resultsDiv = document.getElementById(`test-results-${exerciseNumber}`);
+    const exercise = exercisesContent[exerciseNumber];
+    
+    if (codeInput && exercise) {
+        // Reset textarea to starter code
+        codeInput.value = exercise.starter;
+        
+        // Clear output and results
+        if (outputDiv) outputDiv.style.display = 'none';
+        if (resultsDiv) resultsDiv.style.display = 'none';
+        
+        // Focus on textarea
+        codeInput.focus();
+        
+        showToast('Code reset to starter template', 'info');
     }
 }
 
